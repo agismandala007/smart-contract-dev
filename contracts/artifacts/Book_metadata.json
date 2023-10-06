@@ -95,7 +95,13 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "_title",
+						"type": "string"
+					}
+				],
 				"name": "generatorISBN",
 				"outputs": [
 					{
@@ -104,15 +110,15 @@
 						"type": "bytes32"
 					}
 				],
-				"stateMutability": "nonpayable",
+				"stateMutability": "pure",
 				"type": "function"
 			},
 			{
 				"inputs": [
 					{
-						"internalType": "bytes32",
-						"name": "_isbn",
-						"type": "bytes32"
+						"internalType": "string",
+						"name": "_title",
+						"type": "string"
 					}
 				],
 				"name": "getBook",
@@ -153,6 +159,34 @@
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "_isbn",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "string",
+						"name": "_title",
+						"type": "string"
+					},
+					{
+						"internalType": "uint256",
+						"name": "_year",
+						"type": "uint256"
+					},
+					{
+						"internalType": "string",
+						"name": "_writter",
+						"type": "string"
+					}
+				],
+				"name": "updateBook",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -183,11 +217,11 @@
 	},
 	"sources": {
 		"contracts/Book.sol": {
-			"keccak256": "0xff3ea30c591770bf8dc15a181a195a4c2759c512f50e130fd3b12e22e4b6a318",
+			"keccak256": "0x9022dd352bfc484a28bf5d7ce07808fa1c3be51b794f78c5338c9be7a435deb8",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://67a3f78b6cd38bc5f78e3e330340d333da4faff2feb773517068c145736b9752",
-				"dweb:/ipfs/QmdBLoHw56xRf3fmNioD5HYPVZn9DapH6oNP96F5v4fPog"
+				"bzz-raw://aafca49aab7b7774291dff6da438a5a166edc58a4ce61ea1a6a8b055361334e4",
+				"dweb:/ipfs/QmNzWSoYQusjh8soHHiEXYVkruCrn2PjyWnnT3omMa8rYF"
 			]
 		}
 	},

@@ -3,7 +3,6 @@ pragma solidity 0.8.19;
 
 contract Book {
     address public admin = 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;
-    uint256 private isbnCounter;
 
     struct BookAtribut {
         bytes32 isbn;
@@ -20,12 +19,10 @@ contract Book {
         _;
     }
 
-    function generatorISBN() public returns (bytes32) {
-        uint seed = isbnCounter + block.timestamp;
-        bytes32 randomHash = keccak256(abi.encodePacked(seed));
-        isbnCounter++;
+    function generatorISBN(string calldata _title) public pure returns (bytes32) {
+        bytes32 randomIsdn = keccak256(abi.encodePacked(_title));
         
-        return randomHash;
+        return randomIsdn;
     }
 
     function addBook (
@@ -34,7 +31,7 @@ contract Book {
         string calldata _writter
     ) public onlyAdmin {
         BookAtribut memory newBooks = BookAtribut({
-            isbn: generatorISBN(),
+            isbn: generatorISBN(_title),
             title: _title,
             year: _year,
             writter: _writter
@@ -49,18 +46,17 @@ contract Book {
         return indexBooks[_isbn] != 0;
     }
 
-    function getBook (bytes32 _isbn) public view returns(bytes32, string memory, uint , string memory) {
-        require(books.length > 0);
-        require(bookExist(_isbn), "Not Found");
+    function getBook (string calldata _title) public view returns(bytes32, string memory, uint , string memory) {
+        bytes32 convertString = bytes32(keccak256(bytes(_title)));
+        require(bookExist(convertString), "Not Found");
 
-        uint getIndex = indexBooks[_isbn] - 1;
+        uint getIndex = indexBooks[convertString] - 1;
 
         return (books[getIndex].isbn, books[getIndex].title, books[getIndex].year, books[getIndex].writter);
     }
 
-    function removeBook(bytes32 _isbn) public onlyAdmin {
-        require(books.length > 0);
-        require(bookExist(_isbn), "not found");
+    function removeBook (bytes32 _isbn) public onlyAdmin {
+        require(bookExist(_isbn), "Not Found");
 
         uint getIndex = indexBooks[_isbn] - 1;
         BookAtribut memory lastBook = books[books.length - 1];
@@ -70,5 +66,26 @@ contract Book {
 
         delete indexBooks[_isbn];
         books.pop();
+    }
+
+    function updateBook (
+        bytes32 _isbn,
+        string calldata _title,
+        uint _year,
+        string calldata _writter
+    ) public onlyAdmin {
+        require(bookExist(_isbn), "Not Found");
+
+        uint getIndex = indexBooks[_isbn] - 1;
+
+        books[getIndex] = BookAtribut({
+            isbn: generatorISBN(_title),
+            title: _title,
+            year: _year,
+            writter: _writter
+        });
+
+        indexBooks[books[getIndex].isbn] = getIndex + 1;
+        delete indexBooks[_isbn]; 
     }
 }
