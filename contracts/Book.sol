@@ -19,13 +19,15 @@ contract Book {
         _;
     }
 
-    function generatorISBN(string calldata _title) public pure returns (bytes32) {
+    function generatorISBN(
+        string calldata _title
+    ) public pure returns (bytes32) {
         bytes32 randomIsdn = keccak256(abi.encodePacked(_title));
-        
+
         return randomIsdn;
     }
 
-    function addBook (
+    function addBook(
         string calldata _title,
         uint _year,
         string calldata _writter
@@ -42,20 +44,27 @@ contract Book {
         indexBooks[newBooks.isbn] = books.length;
     }
 
-    function bookExist (bytes32 _isbn) public view returns (bool){
+    function bookExist(bytes32 _isbn) public view returns (bool) {
         return indexBooks[_isbn] != 0;
     }
 
-    function getBook (string calldata _title) public view returns(bytes32, string memory, uint , string memory) {
+    function getBook(
+        string calldata _title
+    ) public view returns (bytes32, string memory, uint, string memory) {
         bytes32 convertString = bytes32(keccak256(bytes(_title)));
         require(bookExist(convertString), "Not Found");
 
         uint getIndex = indexBooks[convertString] - 1;
 
-        return (books[getIndex].isbn, books[getIndex].title, books[getIndex].year, books[getIndex].writter);
+        return (
+            books[getIndex].isbn,
+            books[getIndex].title,
+            books[getIndex].year,
+            books[getIndex].writter
+        );
     }
 
-    function removeBook (bytes32 _isbn) public onlyAdmin {
+    function removeBook(bytes32 _isbn) public onlyAdmin {
         require(bookExist(_isbn), "Not Found");
 
         uint getIndex = indexBooks[_isbn] - 1;
@@ -68,7 +77,7 @@ contract Book {
         books.pop();
     }
 
-    function updateBook (
+    function updateBook(
         bytes32 _isbn,
         string calldata _title,
         uint _year,
@@ -86,6 +95,6 @@ contract Book {
         });
 
         indexBooks[books[getIndex].isbn] = getIndex + 1;
-        delete indexBooks[_isbn]; 
+        delete indexBooks[_isbn];
     }
 }
