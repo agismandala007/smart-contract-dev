@@ -58,17 +58,17 @@ contract Book {
         return (books[getIndex].isbn, books[getIndex].title, books[getIndex].year, books[getIndex].writter);
     }
 
-    // function removeBook(string calldata _isbn) public onlyAdmin {
-    //     require(books.length > 0);
-    //     require(bookExist(_isbn), "not found");
+    function removeBook(bytes32 _isbn) public onlyAdmin {
+        require(books.length > 0);
+        require(bookExist(_isbn), "not found");
 
-    //     uint getIndex = indexBooks[_isbn];
-    //     BookAtribut memory booksMove = books[books.length - 1];
+        uint getIndex = indexBooks[_isbn] - 1;
+        BookAtribut memory lastBook = books[books.length - 1];
 
-    //     books[getIndex] = booksMove;
-    //     books[getIndex].isbn = getIndex;
+        books[getIndex] = lastBook;
+        indexBooks[lastBook.isbn] = getIndex + 1;
 
-    //     delete indexBooks[_isbn];
-    //     books.pop();
-    // }
+        delete indexBooks[_isbn];
+        books.pop();
+    }
 }

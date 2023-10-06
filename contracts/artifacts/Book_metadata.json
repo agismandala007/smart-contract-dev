@@ -140,6 +140,19 @@
 				],
 				"stateMutability": "view",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "_isbn",
+						"type": "bytes32"
+					}
+				],
+				"name": "removeBook",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -170,11 +183,11 @@
 	},
 	"sources": {
 		"contracts/Book.sol": {
-			"keccak256": "0x3085ade53fea5d48c2e2ed8fd1a31b574de0453878ff411804eb8b6e84eb5d3d",
+			"keccak256": "0xff3ea30c591770bf8dc15a181a195a4c2759c512f50e130fd3b12e22e4b6a318",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://e9c1a62ff578b52398ca53f20f4843636df204cceed701ae28b55cae512ac6d6",
-				"dweb:/ipfs/QmS9CmkiEN9Qgi9HkjicahPyAvEFLtZt7UNPqdSp1Sr9wk"
+				"bzz-raw://67a3f78b6cd38bc5f78e3e330340d333da4faff2feb773517068c145736b9752",
+				"dweb:/ipfs/QmdBLoHw56xRf3fmNioD5HYPVZn9DapH6oNP96F5v4fPog"
 			]
 		}
 	},
