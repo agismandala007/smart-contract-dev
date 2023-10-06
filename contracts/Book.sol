@@ -49,12 +49,11 @@ contract Book {
     }
 
     function getBook(
-        string calldata _title
+        bytes32 _isbn
     ) public view returns (bytes32, string memory, uint, string memory) {
-        bytes32 convertString = bytes32(keccak256(bytes(_title)));
-        require(bookExist(convertString), "Not Found");
+        require(bookExist(_isbn), "Not Found");
 
-        uint getIndex = indexBooks[convertString] - 1;
+        uint getIndex = indexBooks[_isbn] - 1;
 
         return (
             books[getIndex].isbn,
