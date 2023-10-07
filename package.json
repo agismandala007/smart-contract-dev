@@ -1,0 +1,25 @@
+{
+  "name": "smart-contract-dev",
+  "version": "1.0.0",
+  "description": "REMIX DEFAULT WORKSPACE",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/agismandala007/smart-contract-dev.git"
+  },
+  "author": "agismandala007",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/agismandala007/smart-contract-dev/issues"
+  },
+  "homepage": "https://github.com/agismandala007/smart-contract-dev#readme",
+  "dependencies": {
+    "hardhat": "^2.18.0"
+  }
+}
