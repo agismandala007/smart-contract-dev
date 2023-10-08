@@ -2,7 +2,11 @@
 pragma solidity 0.8.19;
 
 contract Book {
-    address public admin = 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4;
+    address public admin;
+
+    constructor () {
+        admin = msg.sender;
+    }
 
     struct BookAtribut {
         bytes32 isbn;
@@ -17,6 +21,16 @@ contract Book {
     modifier onlyAdmin() {
         require(msg.sender == admin, "Unautorize");
         _;
+    }
+
+    function bookLength() public view returns (uint256) {
+        return books.length;
+    }
+
+    function getAllBook() public view returns (BookAtribut[] memory) {
+        require(books.length > 0 , "Not Found");
+
+        return books;
     }
 
     function generatorISBN(

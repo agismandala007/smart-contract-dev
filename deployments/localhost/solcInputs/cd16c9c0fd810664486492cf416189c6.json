@@ -1,0 +1,35 @@
+{
+  "language": "Solidity",
+  "sources": {
+    "contracts/Book.sol": {
+      "content": "// SPDX-License-Identifier: MIT\r\npragma solidity 0.8.19;\r\n\r\ncontract Book {\r\n    address public admin;\r\n\r\n    constructor () {\r\n        admin = msg.sender;\r\n    }\r\n\r\n    struct BookAtribut {\r\n        bytes32 isbn;\r\n        string title;\r\n        uint year;\r\n        string writter;\r\n    }\r\n\r\n    BookAtribut[] public books;\r\n    mapping(bytes32 => uint) indexBooks;\r\n\r\n    modifier onlyAdmin() {\r\n        require(msg.sender == admin, \"Unautorize\");\r\n        _;\r\n    }\r\n\r\n    function bookLength() public view returns (uint256) {\r\n        return books.length;\r\n    }\r\n\r\n    function getAllBook() public view returns (BookAtribut[] memory) {\r\n        require(books.length > 0 , \"Not Found\");\r\n\r\n        return books;\r\n    }\r\n\r\n    function generatorISBN(\r\n        string calldata _title\r\n    ) public pure returns (bytes32) {\r\n        bytes32 randomIsdn = keccak256(abi.encodePacked(_title));\r\n\r\n        return randomIsdn;\r\n    }\r\n\r\n    function addBook(\r\n        string calldata _title,\r\n        uint _year,\r\n        string calldata _writter\r\n    ) public onlyAdmin {\r\n        BookAtribut memory newBooks = BookAtribut({\r\n            isbn: generatorISBN(_title),\r\n            title: _title,\r\n            year: _year,\r\n            writter: _writter\r\n        });\r\n\r\n        books.push(newBooks);\r\n\r\n        indexBooks[newBooks.isbn] = books.length;\r\n    }\r\n\r\n    function bookExist(bytes32 _isbn) public view returns (bool) {\r\n        return indexBooks[_isbn] != 0;\r\n    }\r\n\r\n    function getBook(\r\n        bytes32 _isbn\r\n    ) public view returns (bytes32, string memory, uint, string memory) {\r\n        require(bookExist(_isbn), \"Not Found\");\r\n\r\n        uint getIndex = indexBooks[_isbn] - 1;\r\n\r\n        return (\r\n            books[getIndex].isbn,\r\n            books[getIndex].title,\r\n            books[getIndex].year,\r\n            books[getIndex].writter\r\n        );\r\n    }\r\n\r\n    function removeBook(bytes32 _isbn) public onlyAdmin {\r\n        require(bookExist(_isbn), \"Not Found\");\r\n\r\n        uint getIndex = indexBooks[_isbn] - 1;\r\n        BookAtribut memory lastBook = books[books.length - 1];\r\n\r\n        books[getIndex] = lastBook;\r\n        indexBooks[lastBook.isbn] = getIndex + 1;\r\n\r\n        delete indexBooks[_isbn];\r\n        books.pop();\r\n    }\r\n\r\n    function updateBook(\r\n        bytes32 _isbn,\r\n        string calldata _title,\r\n        uint _year,\r\n        string calldata _writter\r\n    ) public onlyAdmin {\r\n        require(bookExist(_isbn), \"Not Found\");\r\n\r\n        uint getIndex = indexBooks[_isbn] - 1;\r\n\r\n        books[getIndex] = BookAtribut({\r\n            isbn: generatorISBN(_title),\r\n            title: _title,\r\n            year: _year,\r\n            writter: _writter\r\n        });\r\n\r\n        indexBooks[books[getIndex].isbn] = getIndex + 1;\r\n        delete indexBooks[_isbn];\r\n    }\r\n}\r\n"
+    }
+  },
+  "settings": {
+    "optimizer": {
+      "enabled": true,
+      "runs": 200
+    },
+    "outputSelection": {
+      "*": {
+        "*": [
+          "abi",
+          "evm.bytecode",
+          "evm.deployedBytecode",
+          "evm.methodIdentifiers",
+          "metadata",
+          "devdoc",
+          "userdoc",
+          "storageLayout",
+          "evm.gasEstimates"
+        ],
+        "": [
+          "ast"
+        ]
+      }
+    },
+    "metadata": {
+      "useLiteralContent": true
+    }
+  }
+}
